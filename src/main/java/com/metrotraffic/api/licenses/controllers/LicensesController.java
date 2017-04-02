@@ -20,7 +20,9 @@ public class LicensesController {
 	public ApiResponse findLicense(@PathVariable String licenseNumber){
 		ApiResponse response=new ApiResponse();
 		try{
-			licensesDAO.findLicenseRecordByLicenseNumber(licenseNumber);
+			response.setApiData(licensesDAO.findLicenseRecordByLicenseNumber(licenseNumber));
+			response.setStatus("OK");
+			response.setStatusCode("200");
 		}catch(Exception ex){
 			response.setApiData(null);
 			response.setStatusCode("500");

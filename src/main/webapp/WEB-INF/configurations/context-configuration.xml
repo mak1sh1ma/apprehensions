@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<context:property-placeholder
-		location="/WEB-INF/properties/#{systemProperties['environment-setting']}.application.properties"/>
+		location="/WEB-INF/properties/local.application.properties"/>
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
