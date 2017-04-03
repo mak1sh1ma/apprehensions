@@ -1,10 +1,10 @@
 package com.metrotraffic.api.licenses.objects;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -19,9 +19,14 @@ public class LicensesDAO {
 	JdbcTemplate jdbcTemplate;
 	
 	public List<LicensesEntity> findLicenseRecordByLicenseNumber(String licenseNumber) throws Exception{
-		return jdbcTemplate.query("CALL FIND_LICENSE_RECORD(?)", new Object[]{licenseNumber}, new LicensesMapper());
+		SimpleJdbcCall procCall=new SimpleJdbcCall(jdbcTemplate).withProcedureName("FIND_LICENSE_RECORD").returningResultSet("license", new LicensesMapper());
+		MapSqlParameterSource paramSource=new MapSqlParameterSource();
+		paramSource.addValue("licenseNumber", licenseNumber);
+		Map<String, Object> result=procCall.execute(paramSource);
+		return (List<LicensesEntity>)result.get("license");
 		
 	}
 
 	
 }
+
